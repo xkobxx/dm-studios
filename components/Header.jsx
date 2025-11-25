@@ -27,7 +27,7 @@ const Header = () => {
         </div>
 
         {/* mobile nav */}
-        <div className="xl:hidden">
+        <div className="xl:hidden flex items-center ml-auto">
           <MobileNav />
         </div>
       </div>

@@ -130,9 +130,9 @@
 
   /* Active tab in light mode - keep accent background, ensure proper contrast */
   .light [data-state="active"] {
-    background-color: #00ff99 !important;
+    background-color: #FF4E00 !important;
     color: rgb(17 24 39) !important;
-    border-color: #00ff99 !important;
+    border-color: #FF4E00 !important;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
   }
 
@@ -156,7 +156,7 @@
   }
 
   .text-outline-hover {
-    -webkit-text-stroke: 1px #00ff99;
+    -webkit-text-stroke: 1px #FF4E00;
   }
 
   /* Light mode text outline */

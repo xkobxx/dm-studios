@@ -33,21 +33,17 @@ const MobileNav = () => {
   const pathname = usePathname();
   return (
     <Sheet>
-      <SheetTrigger className="flex justify-center items-center">
+      <SheetTrigger className="flex justify-center items-center p-2.5 rounded-md hover:bg-accent/10 active:bg-accent/20 transition-colors">
         <CiMenuFries className="text-[32px] text-accent" />
       </SheetTrigger>
       <SheetContent className="flex flex-col">
         {/* logo */}
-        <div className="mt-32 mb-10 text-center text-2xl">
+        <div className="mt-32 mb-20 text-center text-2xl">
           <Link href="/">
             <h1 className="text-4xl font-semibold">
-              Luke<span className="text-accent">.</span>
+              DM<span className="text-accent">.</span>
             </h1>
           </Link>
-        </div>
-        {/* theme toggle */}
-        <div className="flex justify-center mb-20">
-          <ThemeToggle />
         </div>
         {/* nav */}
         <nav className="flex flex-col justify-center items-center gap-8">
@@ -66,6 +62,10 @@ const MobileNav = () => {
             );
           })}
         </nav>
+        {/* theme toggle - footer */}
+        <div className="mt-auto mb-10 flex justify-center">
+          <ThemeToggle />
+        </div>
       </SheetContent>
     </Sheet>
   );

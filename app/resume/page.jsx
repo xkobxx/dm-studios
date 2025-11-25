@@ -19,11 +19,11 @@ const about = {
   info: [
     {
       fieldName: "Name",
-      fieldValue: "Luke Coleman",
+      fieldValue: "David Mensah",
     },
     {
       fieldName: "Phone",
-      fieldValue: "(+40) 321 654 678",
+      fieldValue: "(+44) 000 000 000",
     },
     {
       fieldName: "Experience",
@@ -39,7 +39,7 @@ const about = {
     },
     {
       fieldName: "Email",
-      fieldValue: "luke.01@gmail.com",
+      fieldValue: "davidmensah0605@gmail.com",
     },
     {
       fieldName: "Freelance",

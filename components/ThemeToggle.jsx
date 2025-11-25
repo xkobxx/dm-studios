@@ -13,7 +13,13 @@ const ThemeToggle = () => {
   }, []);
 
   if (!mounted) {
-    return <div className="w-9 h-9" />; // Placeholder to prevent layout shift
+    return (
+      <button
+        className="w-9 h-9 flex items-center justify-center rounded-full border border-accent/20"
+        aria-label="Toggle theme"
+        disabled
+      />
+    ); // Placeholder to prevent layout shift
   }
 
   return (
