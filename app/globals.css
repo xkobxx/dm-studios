@@ -3,9 +3,145 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply font-primary bg-primary text-white leading-loose;
+  :root {
+    --text-primary: 255 255 255;
+    --text-secondary: 255 255 255;
+    --bg-card: 35 35 41;
+    --bg-form: 39 39 44;
+    --border-color: 255 255 255;
   }
+
+  .light {
+    --text-primary: 17 24 39;
+    --text-secondary: 107 114 128;
+    --bg-card: 255 255 255;
+    --bg-form: 249 250 251;
+    --border-color: 229 231 235;
+  }
+
+  body {
+    @apply font-primary bg-primary text-white leading-loose transition-colors duration-300;
+  }
+
+  /* Light mode body styles */
+  .light body {
+    @apply bg-secondary text-gray-900;
+  }
+
+  /* Header text color for light mode */
+  .light header {
+    @apply text-gray-900;
+  }
+
+  /* Override hardcoded text-white in light mode */
+  .light .text-white {
+    color: rgb(17 24 39) !important;
+  }
+
+  /* Keep white text for icons inside bg-primary links */
+  .light .bg-primary .text-white {
+    color: rgb(255 255 255) !important;
+  }
+
+  .light .text-white\/60,
+  .light .text-white\/80 {
+    color: rgb(107 114 128) !important;
+  }
+
+  /* Card backgrounds in light mode */
+  .light [class*="bg-[#232329]"] {
+    background-color: #f9f9f9 !important;
+    box-shadow: none !important;
+  }
+
+  /* Border colors in light mode */
+  .light .border-white\/20,
+  .light .border-white\/10 {
+    border-color: rgb(229 231 235) !important;
+  }
+
+  /* Form elements in light mode */
+  .light input,
+  .light textarea,
+  .light select,
+  .light button[role="combobox"] {
+    background-color: rgb(255 255 255) !important;
+    color: rgb(17 24 39) !important;
+    border-color: rgb(229 231 235) !important;
+  }
+
+  .light input::placeholder,
+  .light textarea::placeholder {
+    color: rgb(156 163 175) !important;
+  }
+
+  /* Fix bg-primary in light mode (forms, inputs) */
+  .light .bg-primary:not(button):not(a) {
+    background-color: rgb(255 255 255) !important;
+  }
+
+  /* Select dropdown content */
+  .light [role="listbox"],
+  .light [data-radix-select-content] {
+    background-color: rgb(255 255 255) !important;
+    color: rgb(17 24 39) !important;
+    border-color: rgb(229 231 235) !important;
+  }
+
+  /* Icon buttons and tooltips in light mode */
+  .light .bg-white\/5 {
+    background-color: rgb(243 244 246) !important;
+  }
+
+  .light .bg-white\/5 .text-white {
+    color: rgb(17 24 39) !important;
+  }
+
+  /* Project image overlays */
+  .light .bg-pink-50\/20 {
+    background-color: rgb(243 244 246) !important;
+  }
+
+  /* Ensure SVG icons inherit proper colors in light mode */
+  .light svg {
+    color: inherit;
+  }
+
+  /* Fix hero image visibility in light mode - remove blend mode */
+  .light .mix-blend-lighten {
+    mix-blend-mode: normal !important;
+  }
+
+  /* Animation color swapping for light mode */
+  .light .stair-step {
+    background-color: #1c1c22 !important;
+  }
+
+  .light .page-transition-overlay {
+    background-color: #f8f9fa !important;
+  }
+
+  /* Tabs styling for light mode */
+  .light [class*="bg-[#27272c]"] {
+    background-color: #f9f9f9 !important;
+    color: rgb(17 24 39) !important;
+    border: 1px solid rgb(229 231 235);
+  }
+
+  /* Active tab in light mode - keep accent background, ensure proper contrast */
+  .light [data-state="active"] {
+    background-color: #00ff99 !important;
+    color: rgb(17 24 39) !important;
+    border-color: #00ff99 !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+  }
+
+  /* Tab content background in light mode */
+  .light [role="tabpanel"] {
+    background-color: rgb(255 255 255) !important;
+    box-shadow: none !important;
+  }
+
   .h1 {
     @apply text-[48px] xl:text-[80px] leading-[1.1] font-semibold;
   }
@@ -21,5 +157,10 @@
 
   .text-outline-hover {
     -webkit-text-stroke: 1px #00ff99;
+  }
+
+  /* Light mode text outline */
+  .light .text-outline {
+    -webkit-text-stroke: 1px #1c1c22;
   }
 }

@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   {
@@ -37,12 +38,16 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent className="flex flex-col">
         {/* logo */}
-        <div className="mt-32 mb-40 text-center text-2xl">
+        <div className="mt-32 mb-10 text-center text-2xl">
           <Link href="/">
             <h1 className="text-4xl font-semibold">
               Luke<span className="text-accent">.</span>
             </h1>
           </Link>
+        </div>
+        {/* theme toggle */}
+        <div className="flex justify-center mb-20">
+          <ThemeToggle />
         </div>
         {/* nav */}
         <nav className="flex flex-col justify-center items-center gap-8">
