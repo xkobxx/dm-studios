@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "@formspree/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,6 +37,9 @@ const info = [
 ];
 
 const Contact = () => {
+  const formId = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID || "mjkdzogw";
+  const [state, handleFormspreeSubmit] = useForm(formId);
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -46,8 +50,6 @@ const Contact = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' or 'error'
 
   const validateForm = () => {
     const newErrors = {};
@@ -94,71 +96,24 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitStatus(null);
 
     if (!validateForm()) {
       return;
     }
 
-    setIsSubmitting(true);
+    // Submit to Formspree
+    await handleFormspreeSubmit(e);
 
-    try {
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-
-      if (accessKey) {
-        // Web3Forms submission - use FormData, not JSON
-        const formDataToSend = new FormData();
-        formDataToSend.append("access_key", accessKey);
-        formDataToSend.append("name", `${formData.firstname} ${formData.lastname}`);
-        formDataToSend.append("email", formData.email);
-        formDataToSend.append("phone", formData.phone);
-        formDataToSend.append("service", formData.service);
-        formDataToSend.append("message", formData.message);
-        formDataToSend.append("subject", `New Contact Form Submission from ${formData.firstname} ${formData.lastname}`);
-
-        const response = await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          body: formDataToSend
-        });
-
-        const result = await response.json();
-
-        console.log("Web3Forms Response:", result);
-
-        if (result.success) {
-          setSubmitStatus("success");
-          setFormData({
-            firstname: "",
-            lastname: "",
-            email: "",
-            phone: "",
-            service: "",
-            message: "",
-          });
-        } else {
-          console.error("Web3Forms Error:", result.message || "Unknown error");
-          setSubmitStatus("error");
-        }
-      } else {
-        // No access key configured - demo mode
-        console.log("Form data:", formData);
-        console.warn("⚠️ Web3Forms access key not configured. Add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY to .env.local");
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-        setSubmitStatus("success");
-        setFormData({
-          firstname: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          service: "",
-          message: "",
-        });
-      }
-    } catch (error) {
-      console.error("Form submission error:", error);
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
+    // Clear form on success
+    if (state.succeeded) {
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: "",
+      });
     }
   };
 
@@ -175,12 +130,12 @@ const Contact = () => {
               </p>
 
               {/* Status messages */}
-              {submitStatus === "success" && (
+              {state.succeeded && (
                 <div className="p-4 bg-green-500/10 border border-green-500/50 rounded-lg text-green-500">
                   Thank you! Your message has been sent successfully.
                 </div>
               )}
-              {submitStatus === "error" && (
+              {state.errors && state.errors.length > 0 && (
                 <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500">
                   Sorry, something went wrong. Please try again later.
                 </div>
@@ -191,6 +146,7 @@ const Contact = () => {
                 <div>
                   <Input
                     type="text"
+                    name="firstname"
                     placeholder="Eg. John"
                     value={formData.firstname}
                     onChange={(e) => handleInputChange("firstname", e.target.value)}
@@ -203,6 +159,7 @@ const Contact = () => {
                 <div>
                   <Input
                     type="text"
+                    name="lastname"
                     placeholder="Eg. Doe"
                     value={formData.lastname}
                     onChange={(e) => handleInputChange("lastname", e.target.value)}
@@ -215,6 +172,7 @@ const Contact = () => {
                 <div>
                   <Input
                     type="email"
+                    name="email"
                     placeholder="email@email.com"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
@@ -227,6 +185,7 @@ const Contact = () => {
                 <div>
                   <Input
                     type="tel"
+                    name="phone"
                     placeholder="+44 000 000 000"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
@@ -253,6 +212,8 @@ const Contact = () => {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+                {/* Hidden input for Formspree */}
+                <input type="hidden" name="service" value={formData.service} />
                 {errors.service && (
                   <p className="text-red-500 text-sm mt-1">{errors.service}</p>
                 )}
@@ -260,6 +221,7 @@ const Contact = () => {
               {/* textarea */}
               <div>
                 <Textarea
+                  name="message"
                   className={`h-[200px] ${errors.message ? "border-red-500" : ""}`}
                   placeholder="Type your message here."
                   value={formData.message}
@@ -274,9 +236,9 @@ const Contact = () => {
                 type="submit"
                 size="md"
                 className="max-w-40"
-                disabled={isSubmitting}
+                disabled={state.submitting}
               >
-                {isSubmitting ? "Sending..." : "Send message"}
+                {state.submitting ? "Sending..." : "Send message"}
               </Button>
             </form>
           </div>
