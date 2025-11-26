@@ -15,7 +15,7 @@ import { SiTailwindcss, SiNextdotjs } from "react-icons/si";
 const about = {
   title: "About me",
   description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quibusdam, sunt explicabo inventore.",
+    "I'm part engineer, part artist, fully obsessed with pixels and possibilities. <br><br>My brain runs on logic, but my heart sketches in colour. With a foundation rooted in technology and an eye that won't settle for \"good enough,\" I build digital worlds where code dances with creativity. Websites that breathe. Interfaces that whisper. Logos that wink from across the room. Search engines? I speak their language fluently. <br><br>Consider me your friendly neighbourhood digital architect. Let's make the internet a little more beautiful.",
   info: [
     {
       fieldName: "Name",
@@ -23,19 +23,19 @@ const about = {
     },
     {
       fieldName: "Phone",
-      fieldValue: "(+44) 000 000 000",
+      fieldValue: "(+44) 757 292 6145",
     },
     {
       fieldName: "Experience",
-      fieldValue: "12+ Years",
+      fieldValue: "6+ Years",
     },
     {
       fieldName: "Skype",
-      fieldValue: "luke.01",
+      fieldValue: "kobe",
     },
     {
       fieldName: "Nationality",
-      fieldValue: "American",
+      fieldValue: "Ghanaian",
     },
     {
       fieldName: "Email",
@@ -47,7 +47,7 @@ const about = {
     },
     {
       fieldName: "Languages",
-      fieldValue: "English, Spanish",
+      fieldValue: "English, Twi",
     },
   ],
 };
@@ -125,9 +125,9 @@ const education = {
       duration: "2016 - 2018",
     },
     {
-      institution: "Community College",
-      degree: "Associate Degree in Computer Science",
-      duration: "2014 - 2016",
+      institution: "Solent University",
+      degree: "BSc. Computer Science",
+      duration: "2022 - 2026",
     },
   ],
 };
@@ -183,18 +183,10 @@ import {
 } from "@/components/ui/tooltip";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { motion } from "framer-motion";
 
 const Resume = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-        transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
-      }}
-      className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
-    >
+    <div className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0">
       <div className="container mx-auto">
         <Tabs
           defaultValue="experience"
@@ -312,9 +304,10 @@ const Resume = () => {
             >
               <div className="flex flex-col gap-[30px]">
                 <h3 className="text-4xl font-bold">{about.title}</h3>
-                <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
-                  {about.description}
-                </p>
+                <p
+                  className="max-w-[600px] text-white/60 mx-auto xl:mx-0"
+                  dangerouslySetInnerHTML={{ __html: about.description }}
+                />
                 <ul className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
                   {about.info.map((item, index) => {
                     return (
@@ -333,7 +326,7 @@ const Resume = () => {
           </div>
         </Tabs>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
