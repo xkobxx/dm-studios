@@ -5,29 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
 import ThemeToggle from "./ThemeToggle";
-
-const links = [
-  {
-    name: "home",
-    path: "/",
-  },
-  {
-    name: "services",
-    path: "/services",
-  },
-  {
-    name: "resume",
-    path: "/resume",
-  },
-  {
-    name: "work",
-    path: "/work",
-  },
-  {
-    name: "contact",
-    path: "/contact",
-  },
-];
+import { navigationLinks } from "@/lib/constants";
 
 const MobileNav = () => {
   const pathname = usePathname();
@@ -47,7 +25,7 @@ const MobileNav = () => {
         </div>
         {/* nav */}
         <nav className="flex flex-col justify-center items-center gap-8">
-          {links.map((link, index) => {
+          {navigationLinks.map((link, index) => {
             return (
               <Link
                 href={link.path}
