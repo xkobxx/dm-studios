@@ -6,7 +6,7 @@ This guide will help you set up your contact form to actually send emails using 
 
 ## ✅ What You'll Need
 - 5 minutes of your time
-- Your email address (davidmensah0605@gmail.com)
+- Your email address
 - Internet connection
 
 ---
@@ -24,7 +24,7 @@ This guide will help you set up your contact form to actually send emails using 
 
 3. **Enter your email:**
    ```
-   davidmensah0605@gmail.com
+   youremail@email.com
    ```
 
 4. **Click "Get Started"**
@@ -46,7 +46,7 @@ This guide will help you set up your contact form to actually send emails using 
 
 1. **Open your project folder** in VS Code:
    ```
-   /Users/davidmensah/Downloads/luke-portfolio/
+   /location-of-your-project/project-folder/
    ```
 
 2. **Find and open the file:** `.env.local`
@@ -109,7 +109,7 @@ This guide will help you set up your contact form to actually send emails using 
    - Green success message appears: "Thank you! Your message has been sent successfully."
    - Form clears automatically
 
-5. **Check your email inbox** (davidmensah0605@gmail.com)
+5. **Check your email inbox** (youremail@email.com)
    - You should receive an email with the form data
    - Subject: "New Contact Form Submission from Test User"
    - Check spam folder if you don't see it within 2 minutes
@@ -133,7 +133,7 @@ This guide will help you set up your contact form to actually send emails using 
 1. **User fills out the contact form** on your website
 2. **Form validates** all fields (name, email, phone, service, message)
 3. **Data is sent to Web3Forms** API
-4. **Web3Forms sends you an email** to: davidmensah0605@gmail.com
+4. **Web3Forms sends you an email** to: youremail@email.com
 5. **User sees success message**
 6. **You receive email** with all the form details
 
@@ -331,7 +331,7 @@ If you encounter issues:
 ## 🎉 You're Done!
 
 Your contact form is now fully functional and will send you emails at:
-**davidmensah0605@gmail.com**
+**youremail@email.com**
 
 When visitors fill out your contact form, you'll receive an email with:
 - Their name
@@ -348,7 +348,7 @@ You can then reply directly to their email!
 
 **Your Settings:**
 ```bash
-Email: davidmensah0605@gmail.com
+Email: youremail@email.com
 Access Key: [in .env.local]
 Endpoint: https://api.web3forms.com/submit
 Monthly Limit: 250 submissions (free)
@@ -356,7 +356,7 @@ Monthly Limit: 250 submissions (free)
 
 **File to edit:**
 ```
-/Users/davidmensah/Downloads/luke-portfolio/.env.local
+/your-project-location/.env.local
 ```
 
 **Line to update:**
