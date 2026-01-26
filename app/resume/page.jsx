@@ -23,7 +23,7 @@ const about = {
     },
     {
       fieldName: "Phone",
-      fieldValue: "(+44) 757 292 6145",
+      fieldValue: process.env.NEXT_PUBLIC_CONTACT_PHONE || "(+44) 757 292 6145",
     },
     {
       fieldName: "Experience",
@@ -39,7 +39,7 @@ const about = {
     },
     {
       fieldName: "Email",
-      fieldValue: "davidmensah0605@gmail.com",
+      fieldValue: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "davidmensah0605@gmail.com",
     },
     {
       fieldName: "Freelance",

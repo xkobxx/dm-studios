@@ -21,9 +21,9 @@ const Header = () => {
         <div className="hidden xl:flex items-center gap-8">
           <Nav />
           <ThemeToggle />
-          <Link href="/contact">
-            <Button>Hire me</Button>
-          </Link>
+          <Button asChild>
+            <Link href="/contact">Hire me</Link>
+          </Button>
         </div>
 
         {/* mobile nav */}
