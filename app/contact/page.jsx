@@ -123,7 +123,8 @@ const Contact = () => {
         <div className="flex flex-col xl:flex-row gap-[30px]">
           {/* form */}
           <div className="xl:w-[54%] order-2 xl:order-none">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl" method="POST" action="https://formspree.io/f/mjkdzogw">
+
               <h3 className="text-4xl text-accent">Let&apos;s work together</h3>
               <p className="text-white/60">
                 Fill out the form below and I&apos;ll get back to you as soon as possible.
@@ -145,7 +146,7 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Input
-                    type="text"
+                    type="firstname"
                     name="firstname"
                     placeholder="Eg. John"
                     value={formData.firstname}
@@ -158,7 +159,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <Input
-                    type="text"
+                    type="lastname"
                     name="lastname"
                     placeholder="Eg. Doe"
                     value={formData.lastname}
