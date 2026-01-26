@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "@formspree/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaCheckCircle } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 
 const info = [
   {
@@ -50,6 +51,22 @@ const Contact = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Clear form and show success modal when submission succeeds
+  useEffect(() => {
+    if (state.succeeded) {
+      setShowSuccessModal(true);
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: "",
+      });
+    }
+  }, [state.succeeded]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -130,12 +147,6 @@ const Contact = () => {
                 Fill out the form below and I&apos;ll get back to you as soon as possible.
               </p>
 
-              {/* Status messages */}
-              {state.succeeded && (
-                <div className="p-4 bg-green-500/10 border border-green-500/50 rounded-lg text-green-500">
-                  Thank you! Your message has been sent successfully.
-                </div>
-              )}
               {state.errors && state.errors.length > 0 && (
                 <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500">
                   Sorry, something went wrong. Please try again later.
@@ -263,6 +274,43 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            onClick={() => setShowSuccessModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-[#27272c] border border-accent/20 p-8 rounded-xl max-w-md w-full flex flex-col items-center text-center gap-4 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-2">
+                <FaCheckCircle className="text-4xl text-green-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-white">Message Sent!</h3>
+              <p className="text-white/60">
+                Thank you for reaching out. I&apos;ll get back to you as soon as possible.
+              </p>
+              <Button
+                onClick={() => setShowSuccessModal(false)}
+                className="mt-4 w-full"
+                size="md"
+              >
+                Close
+              </Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
