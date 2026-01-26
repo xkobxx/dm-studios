@@ -24,8 +24,7 @@ const ContactForm = () => {
   const [state, handleFormspreeSubmit] = useForm(formId);
 
   const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
+    name: "",
     email: "",
     phone: "",
     service: "",
@@ -40,8 +39,7 @@ const ContactForm = () => {
     if (state.succeeded) {
       setShowSuccessModal(true);
       setFormData({
-        firstname: "",
-        lastname: "",
+        name: "",
         email: "",
         phone: "",
         service: "",
@@ -53,12 +51,8 @@ const ContactForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.firstname.trim()) {
-      newErrors.firstname = "First name is required";
-    }
-
-    if (!formData.lastname.trim()) {
-      newErrors.lastname = "Last name is required";
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
     }
 
     if (!formData.email.trim()) {
@@ -128,31 +122,18 @@ const ContactForm = () => {
         )}
 
         {/* input */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-6">
           <div>
             <Input
               type="text"
-              name="firstname"
-              placeholder="Eg. John"
-              value={formData.firstname}
-              onChange={(e) => handleInputChange("firstname", e.target.value)}
-              className={errors.firstname ? "border-red-500" : ""}
+              name="name"
+              placeholder="Eg. John Doe"
+              value={formData.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              className={`w-full ${errors.name ? "border-red-500" : ""}`}
             />
-            {errors.firstname && (
-              <p className="text-red-500 text-sm mt-1">{errors.firstname}</p>
-            )}
-          </div>
-          <div>
-            <Input
-              type="text"
-              name="lastname"
-              placeholder="Eg. Doe"
-              value={formData.lastname}
-              onChange={(e) => handleInputChange("lastname", e.target.value)}
-              className={errors.lastname ? "border-red-500" : ""}
-            />
-            {errors.lastname && (
-              <p className="text-red-500 text-sm mt-1">{errors.lastname}</p>
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
             )}
           </div>
           <div>
@@ -162,7 +143,7 @@ const ContactForm = () => {
               placeholder="email@email.com"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className={errors.email ? "border-red-500" : ""}
+              className={`w-full ${errors.email ? "border-red-500" : ""}`}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -175,7 +156,7 @@ const ContactForm = () => {
               placeholder="+44 000 000 000"
               value={formData.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
-              className={errors.phone ? "border-red-500" : ""}
+              className={`w-full ${errors.phone ? "border-red-500" : ""}`}
             />
             {errors.phone && (
               <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
@@ -200,6 +181,9 @@ const ContactForm = () => {
           </Select>
           {/* Hidden input for Formspree */}
           <input type="hidden" name="service" value={formData.service} />
+          {/* Add Subject for Formspree */}
+          <input type="hidden" name="_subject" value={`New message from ${formData.name}`} />
+
           {errors.service && (
             <p className="text-red-500 text-sm mt-1">{errors.service}</p>
           )}
