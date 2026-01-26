@@ -39,7 +39,7 @@ const about = {
     },
     {
       fieldName: "Email",
-      fieldValue: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@davidmensah.studios",
+      fieldValue: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@davidmensah.studio",
     },
     {
       fieldName: "Freelance",
