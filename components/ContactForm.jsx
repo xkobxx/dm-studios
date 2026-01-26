@@ -18,6 +18,7 @@ import {
 
 import { FaCheckCircle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
   const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
@@ -31,6 +32,7 @@ const ContactForm = () => {
     message: "",
   });
 
+  const [captchaToken, setCaptchaToken] = useState(null);
   const [errors, setErrors] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -45,6 +47,7 @@ const ContactForm = () => {
         service: "",
         message: "",
       });
+      setCaptchaToken(null);
     }
   }, [state.succeeded]);
 
@@ -75,6 +78,10 @@ const ContactForm = () => {
       newErrors.message = "Message must be at least 10 characters";
     }
 
+    if (!captchaToken) {
+      newErrors.captcha = "Please complete the reCAPTCHA";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -84,6 +91,13 @@ const ContactForm = () => {
     // Clear error for this field when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
+    }
+  };
+
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token);
+    if (errors.captcha) {
+      setErrors((prev) => ({ ...prev, captcha: "" }));
     }
   };
 
@@ -201,6 +215,26 @@ const ContactForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.message}</p>
           )}
         </div>
+
+        {/* reCAPTCHA */}
+        <div className="w-full">
+          <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+            onChange={handleCaptchaChange}
+            theme="dark"
+            className="flex justify-start"
+          />
+          {/* Hidden input for Formspree */}
+          <input
+            type="hidden"
+            name="g-recaptcha-response"
+            value={captchaToken || ""}
+          />
+          {errors.captcha && (
+            <p className="text-red-500 text-sm mt-1">{errors.captcha}</p>
+          )}
+        </div>
+
         {/* btn */}
         <Button
           type="submit"
