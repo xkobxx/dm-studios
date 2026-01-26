@@ -37,7 +37,7 @@ const info = [
 ];
 
 const Contact = () => {
-  const formId = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID || "mjkdzogw";
+  const formId = "mjkdzogw";
   const [state, handleFormspreeSubmit] = useForm(formId);
 
   const [formData, setFormData] = useState({
@@ -146,7 +146,7 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Input
-                    type="firstname"
+                    type="text"
                     name="firstname"
                     placeholder="Eg. John"
                     value={formData.firstname}
@@ -159,7 +159,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <Input
-                    type="lastname"
+                    type="text"
                     name="lastname"
                     placeholder="Eg. Doe"
                     value={formData.lastname}
