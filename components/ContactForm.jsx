@@ -21,7 +21,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
-  const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+  const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID || "exampleFormId";
   const [state, handleFormspreeSubmit] = useForm(formId);
 
   const [formData, setFormData] = useState({
