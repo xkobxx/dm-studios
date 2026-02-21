@@ -2,6 +2,7 @@
 
 import { BsArrowDownRight } from "react-icons/bs";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -9,28 +10,28 @@ const services = [
     title: "Web Development",
     description:
       "Building fast, responsive, and scalable websites that work flawlessly across all devices. Your vision, coded into a powerful digital presence.",
-    href: "",
+    href: "/services/web-development",
   },
   {
     num: "02",
     title: "UI/UX Design",
     description:
       "Designing interfaces that users love to navigate. I blend research, strategy, and creativity to craft seamless, intuitive digital experiences.",
-    href: "",
+    href: "/services/ui-ux-design",
   },
   {
     num: "03",
-    title: "Logo Design",
+    title: "Wireframing & Prototyping",
     description:
-      "Your brand deserves a memorable first impression. I create distinctive logos that capture your identity and stand the test of time.",
-    href: "",
+      "Create wireframes and interactive prototypes to visualize your ideas and test user flows. I help you move from concept to reality with ease.",
+    href: "/services/wireframing-prototyping",
   },
   {
     num: "04",
-    title: "SEO",
+    title: "UX & User Research",
     description:
-      "Helping your website get found by the right audience. I optimise for search engines so your business climbs the rankings.",
-    href: "",
+      "Empower your product with data-driven insights. I conduct user research to understand your users' needs, behaviours, and pain points.",
+    href: "/services/user-research",
   },
 ];
 
@@ -38,12 +39,21 @@ const Services = () => {
   return (
     <section className="min-h-[80vh] flex flex-col justify-center py-12 xl:py-0">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[60px]">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-[60px]"
+        >
           {services.map((service, index) => {
             return (
-              <div
+              <motion.div
                 key={index}
-                className="flex-1 flex flex-col justify-center gap-6 group"
+                className="flex-1 flex flex-col justify-center gap-6 group cursor-pointer"
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
               >
                 {/* top */}
                 <div className="w-full flex justify-between items-center">
@@ -52,9 +62,10 @@ const Services = () => {
                   </div>
                   <Link
                     href={service.href}
-                    className="w-[70px] h-[70px] rounded-full bg-primary dark:bg-white group-hover:bg-accent transition-all duration-500 flex justify-center items-center hover:-rotate-45"
+                    className="w-[70px] h-[70px] rounded-full bg-white group-hover:bg-accent transition-all duration-500 flex justify-center items-center hover:-rotate-45 relative overflow-hidden"
                   >
-                    <BsArrowDownRight className="text-white dark:text-primary text-3xl" />
+                    <BsArrowDownRight className="text-primary text-3xl relative z-10" />
+                    <span className="absolute inset-0 bg-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></span>
                   </Link>
                 </div>
                 {/* title */}
@@ -62,13 +73,13 @@ const Services = () => {
                   {service.title}
                 </h2>
                 {/* description */}
-                <p className="text-white/60">{service.description}</p>
+                <p className="text-white/60 group-hover:text-white/80 transition-colors duration-300">{service.description}</p>
                 {/* border */}
-                <div className="border-b border-white/20 w-full"></div>
-              </div>
+                <div className="border-b border-white/20 w-full group-hover:border-accent/50 transition-colors duration-300"></div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

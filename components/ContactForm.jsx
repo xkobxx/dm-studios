@@ -53,6 +53,7 @@ const ContactForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
@@ -78,7 +79,7 @@ const ContactForm = () => {
       newErrors.message = "Message must be at least 10 characters";
     }
 
-    if (!captchaToken) {
+    if (siteKey && !captchaToken) {
       newErrors.captcha = "Please complete the reCAPTCHA";
     }
 
@@ -113,13 +114,8 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="xl:w-[54%] order-2 xl:order-none">
+    <div className="w-full order-2 xl:order-none">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
-
-        <h3 className="text-4xl text-accent">Let&apos;s work together</h3>
-        <p className="text-white/60">
-          Fill out the form below and I&apos;ll get back to you as soon as possible.
-        </p>
 
         {state.errors && state.errors.length > 0 && (
           <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500">
@@ -218,12 +214,18 @@ const ContactForm = () => {
 
         {/* reCAPTCHA */}
         <div className="w-full">
-          <ReCAPTCHA
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-            onChange={handleCaptchaChange}
-            theme="dark"
-            className="flex justify-start"
-          />
+          {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              onChange={handleCaptchaChange}
+              theme="dark"
+              className="flex justify-start"
+            />
+          ) : (
+            <div className="p-3 text-sm text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 rounded-md">
+              ReCAPTCHA configuration missing. Please set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.
+            </div>
+          )}
           {/* Hidden input for Formspree */}
           <input
             type="hidden"

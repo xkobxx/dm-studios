@@ -21,36 +21,80 @@ import WorkSliderBtns from "@/components/WorkSliderBtns";
 const projects = [
   {
     num: "01",
-    category: "frontend",
-    title: "project 1",
+    category: "Family Management System",
+    title: "Family Management System",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate magnam modi.",
-    stack: [{ name: "Html 5" }, { name: "Css 3" }, { name: "Javascript" }],
-    image: "/assets/work/thumb1.png",
-    live: "",
-    github: "",
+      "A comprehensive family management system designed for managing clan members, interactive D3 family trees, events and media, featuring secure auth with role‑based admin tools, Stripe payments, Cloudinary media, and Vercel deployment.",
+    stack: [{ name: "​Next.js" }, { name: "TypeScript" }, { name: "React" }, { name: "Tailwind.css" }, { name: "PostgreSQL" }],
+    image: "/assets/work/SackeyWe.jpg",
+    live: "https://sackeywe.com",
+    github: "https://github.com/xkobxx/sackeywe-royal-family",
   },
   {
     num: "02",
-    category: "fullstack",
-    title: "project 2",
+    category: "VLE Classroom System",
+    title: "VLE Classroom System",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate magnam modi.",
-    stack: [{ name: "Next.js" }, { name: "Tailwind.css" }, { name: "Node.js" }],
-    image: "/assets/work/thumb2.png",
-    live: "",
-    github: "",
+      "A Virtual Learning Environment built with TypeScript and React for end-to-end online education management, featuring course enrollment, student and event management, certificate tracking, and a responsive UI with real-time notifications. Includes a robust admin dashboard for platform configuration, fees, email templates, and backups, powered by Supabase for secure authentication and live data sync.",
+    stack: [{ name: "TypeScript" }, { name: "React" }, { name: "ShadCN UI" }, { name: "Supabase" }],
+    image: "/assets/work/Ashcroft.jpg",
+    live: "https://ashcrofteducation.com",
+    github: "https://github.com/xkobxx/VLE-Classroom",
   },
   {
     num: "03",
-    category: "frontend",
-    title: "project 3",
+    category: "Event Booking System",
+    title: "Event Booking System",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate magnam modi.",
-    stack: [{ name: "Next.js" }, { name: "Tailwind.css" }],
-    image: "/assets/work/thumb3.png",
+      "EventEase is a full-stack event management and booking system that enables users to discover, manage, and book events",
+    stack: [{ name: "React" }, { name: "Vite" }, { name: "TypeScript" }, { name: "Radix UI" }, { name: "React Router" }, { name: "Leaflet" }],
+    image: "/assets/work/img.png",
+    live: "https://eventease-web-api.vercel.app",
+    github: "https://github.com/xkobxx/eventease-web-api",
+  },
+  {
+    num: "04",
+    category: "Online Pharmacy Marketplace",
+    title: "Online Pharmacy Marketplace",
+    description:
+      "The project facilitates coordination and communication between independent pharmacy locations, allowing them to pool resources and provide a unified online ordering experience to customers across multiple pharmacy locations in a community.",
+    stack: [{ name: "React " }, { name: "Tailwind.css" }, { name: "TypeScript .CSS" }, { name: "Leaflet" }, { name: "Firebase" }, { name: "NextAuth" }],
+    image: "/assets/work/img.png",
     live: "",
-    github: "",
+    github: "https://github.com/xkobxx/community-pharmacies-online",
+  },
+  {
+    num: "05",
+    category: "Clothing Store DBMS",
+    title: "Clothing Store DBMS",
+    description:
+      "Clothing Store Database Management System is a comprehensive solution for managing inventory, sales, customers, and employees in a clothing retail environment. Built with Python and Tkinter",
+    stack: [{ name: "Python" }, { name: "Tkinter" }, { name: "SQLite" }],
+    image: "/assets/work/img.png",
+    live: "",
+    github: "https://github.com/xkobxx/Clothing-Store-DB",
+  },
+  {
+    num: "06",
+    category: "Web Design - Tradesmith Ghana Ltd",
+    title: "Web Design - Tradesmith Ghana Ltd",
+    description:
+      "Tradesmith Ghana Ltd provides freight forwarding and customs clearance services for import and export shipments via sea and air. The company manages inbound and outbound cargo, offering hands-on support with a personalized service approach while maintaining professional large-scale logistics standards.",
+    stack: [{ name: "WordPress" }, { name: "PHP" }, { name: "Elementor" }, { name: "WooCommerce" }, { name: "MySQL" }],
+    image: "/assets/work/Tradesmith.jpg",
+    live: "https://tradesmithgh.com",
+    github: "#",
+  },
+  {
+    num: "07",
+    category: "Web Design - Active Media Ghana",
+    title: "Web Design - Active Media Ghana",
+    description:
+      "Active Media Ghana is a film and video production agency delivering high-end production and postproduction services. The company collaborates with creative professionals across all stages of production and provides research, directing, editing, scriptwriting, voice-over, distribution, and marketing services.",
+    stack: [{ name: "WordPress" }, { name: "PHP" }, { name: "Elementor" }, { name: "WooCommerce" }, { name: "MySQL" }],
+    image: "/assets/work/activemediagh.png",
+    live: "https://activemediagh.com",
+    github: "#",
   },
 ];
 
@@ -81,7 +125,7 @@ const Work = () => {
               {/* project description */}
               <p className="text-white/60">{project.description}</p>
               {/* stack */}
-              <ul className="flex gap-4">
+              <ul className="flex flex-wrap gap-4">
                 {project.stack.map((item, index) => {
                   return (
                     <li key={index} className="text-xl text-accent">

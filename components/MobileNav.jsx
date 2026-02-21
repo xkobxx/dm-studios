@@ -1,23 +1,27 @@
 "use client";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
 import ThemeToggle from "./ThemeToggle";
 import { navigationLinks } from "@/lib/constants";
+import { useState } from "react";
 
 const MobileNav = () => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger className="flex justify-center items-center p-2.5 rounded-md hover:bg-accent/10 active:bg-accent/20 transition-colors">
         <CiMenuFries className="text-[32px] text-accent" />
       </SheetTrigger>
       <SheetContent className="flex flex-col">
+        <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
         {/* logo */}
         <div className="mt-32 mb-20 text-center text-2xl">
-          <Link href="/">
+          <Link href="/" onClick={() => setIsOpen(false)}>
             <h1 className="text-4xl font-semibold">
               DM<span className="text-accent">.</span>
             </h1>
@@ -30,6 +34,7 @@ const MobileNav = () => {
               <Link
                 href={link.path}
                 key={index}
+                onClick={() => setIsOpen(false)}
                 className={`${
                   link.path === pathname &&
                   "text-accent border-b-2 border-accent"
