@@ -17,7 +17,6 @@ import {
 
 import { FaCheckCircle } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +27,6 @@ const ContactForm = () => {
     message: "",
   });
 
-  const [captchaToken, setCaptchaToken] = useState(null);
   const [errors, setErrors] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,7 +34,6 @@ const ContactForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
@@ -62,10 +59,6 @@ const ContactForm = () => {
       newErrors.message = "Message must be at least 10 characters";
     }
 
-    if (siteKey && !captchaToken) {
-      newErrors.captcha = "Please complete the reCAPTCHA";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -75,13 +68,6 @@ const ContactForm = () => {
     // Clear error for this field when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
-    }
-  };
-
-  const handleCaptchaChange = (token) => {
-    setCaptchaToken(token);
-    if (errors.captcha) {
-      setErrors((prev) => ({ ...prev, captcha: "" }));
     }
   };
 
@@ -108,7 +94,6 @@ const ContactForm = () => {
           phone: formData.phone,
           service: formData.service,
           message: formData.message,
-          _recaptcha: captchaToken,
         }),
       });
 
@@ -219,25 +204,6 @@ const ContactForm = () => {
           />
           {errors.message && (
             <p className="text-red-500 text-sm mt-1">{errors.message}</p>
-          )}
-        </div>
-
-        {/* reCAPTCHA */}
-        <div className="w-full">
-          {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
-            <ReCAPTCHA
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-              onChange={handleCaptchaChange}
-              theme="dark"
-              className="flex justify-start"
-            />
-          ) : (
-            <div className="p-3 text-sm text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 rounded-md">
-              ReCAPTCHA configuration missing. Please set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.
-            </div>
-          )}
-          {errors.captcha && (
-            <p className="text-red-500 text-sm mt-1">{errors.captcha}</p>
           )}
         </div>
 
