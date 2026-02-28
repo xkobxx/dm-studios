@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useForm } from "@formspree/react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,8 +20,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
-  const [state, handleFormspreeSubmit] = useForm("mjkdzogw");
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,21 +31,8 @@ const ContactForm = () => {
   const [captchaToken, setCaptchaToken] = useState(null);
   const [errors, setErrors] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-  // Clear form and show success modal when submission succeeds
-  useEffect(() => {
-    if (state.succeeded) {
-      setShowSuccessModal(true);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        service: "",
-        message: "",
-      });
-      setCaptchaToken(null);
-    }
-  }, [state.succeeded]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const validateForm = () => {
     const newErrors = {};
@@ -108,25 +92,57 @@ const ContactForm = () => {
       return;
     }
 
-    // Submit to Formspree
-    await handleFormspreeSubmit(e);
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch("https://formspree.io/f/mjkdzogw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+          _recaptcha: captchaToken,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setShowSuccessModal(true);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          service: "",
+          message: "",
+        });
+        setCaptchaToken(null);
+      } else {
+        setSubmitError(result.errors?.map(e => e.message).join(", ") || "Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      setSubmitError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="w-full order-2 xl:order-none">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
 
-        {state.errors && state.errors.length > 0 && (
+        {submitError && (
           <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500">
-            <p className="font-semibold">Something went wrong:</p>
-            <ul className="list-disc list-inside text-sm mt-2">
-              {state.errors.map((err, index) => (
-                <li key={index}>
-                  {err.field ? `${err.field}: ` : ""}
-                  {err.message}
-                </li>
-              ))}
-            </ul>
+            <p className="font-semibold">Error:</p>
+            <p className="text-sm mt-2">{submitError}</p>
           </div>
         )}
 
@@ -188,11 +204,6 @@ const ContactForm = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {/* Hidden input for Formspree */}
-          <input type="hidden" name="service" value={formData.service} />
-          {/* Add Subject for Formspree */}
-          <input type="hidden" name="_subject" value={`New message from ${formData.name}`} />
-
           {errors.service && (
             <p className="text-red-500 text-sm mt-1">{errors.service}</p>
           )}
@@ -225,12 +236,6 @@ const ContactForm = () => {
               ReCAPTCHA configuration missing. Please set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.
             </div>
           )}
-          {/* Hidden input for Formspree reCAPTCHA */}
-          <input
-            type="hidden"
-            name="_recaptcha"
-            value={captchaToken || ""}
-          />
           {errors.captcha && (
             <p className="text-red-500 text-sm mt-1">{errors.captcha}</p>
           )}
@@ -241,9 +246,9 @@ const ContactForm = () => {
           type="submit"
           size="md"
           className="max-w-40"
-          disabled={state.submitting}
+          disabled={isSubmitting}
         >
-          {state.submitting ? "Sending..." : "Send message"}
+          {isSubmitting ? "Sending..." : "Send message"}
         </Button>
       </form>
 
