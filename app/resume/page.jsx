@@ -1,353 +1,286 @@
 "use client";
 
-import {
-  FaHtml5,
-  FaCss3,
-  FaJs,
-  FaReact,
-  FaFigma,
-  FaNodeJs,
-  FaWordpress,
-  FaPaintBrush,
-  FaCreativeCommons,
-  FaEnvelope,
-  FaGithub,
-  FaLinkedinIn
-} from "react-icons/fa";
-
-import { SiTailwindcss, SiNextdotjs, SiFramer } from "react-icons/si";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { FiDownload, FiMail, FiLinkedin, FiExternalLink } from "react-icons/fi";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  experience,
+  education,
+  skills,
+  stats,
+  certifications,
+  professionalSummary,
+  personalInfo,
+  projects,
+} from "@/lib/resume-data";
 
-import { SiAffinitydesigner } from "react-icons/si";
-import { SiAdobeillustrator } from "react-icons/si";
-
-// about data
-const about = {
-  title: "About me",
-  description:
-    "With 4+ years of Figma expertise, I design intuitive web interfaces from dashboards and e-commerce landing pages to complex web applications grounded in user research and accessibility standards. My process transforms business goals into clean, mobile-responsive UIs that guide users toward confident decisions. Every deliverable includes production-ready mockups, thoughtful interactions, and developer-friendly handoff.",
-  info: [
-    {
-      fieldName: "Name",
-      fieldValue: "David Mensah",
-    },
-    {
-      fieldName: "Phone",
-      fieldValue: process.env.NEXT_PUBLIC_CONTACT_PHONE,
-    },
-    {
-      fieldName: "Experience",
-      fieldValue: "6+ Years",
-    },
-    {
-      fieldName: "Skype",
-      fieldValue: "kobe",
-    },
-    {
-      fieldName: "Nationality",
-      fieldValue: "Ghanaian",
-    },
-    {
-      fieldName: "Email",
-      fieldValue: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
-    },
-    {
-      fieldName: "Freelance",
-      fieldValue: "Available",
-    },
-    {
-      fieldName: "Languages",
-      fieldValue: "English, Twi",
-    },
-  ],
-};
-
-// experience data
-const experience = {
-  icon: "/assets/resume/badge.svg",
-  title: "My experience",
-  description:
-    "A journey through code, design, and problem-solving. Here's where I've made my mark.",
-  items: [
-    {
-      company: "Tech Solutions Inc.",
-      position: "Full Stack Developer",
-      duration: "2022 - Present",
-    },
-    {
-      company: "Web Design Studio",
-      position: "Front-End Developer Intern",
-      duration: "Summer 2021",
-    },
-    {
-      company: "E-commerce Startup",
-      position: "Freelance Web Developer",
-      duration: "2020 - 2021",
-    },
-    {
-      company: "Tech Academy",
-      position: "Teaching Assistant",
-      duration: "2019 - 2020",
-    },
-    {
-      company: "Digital Agency",
-      position: "UI/UX Designer",
-      duration: "2018 - 2019",
-    },
-    {
-      company: "Software Development Firm",
-      position: "Junior Developer",
-      duration: "2017 - 2018",
-    },
-  ],
-};
-
-// education data
-const education = {
-  icon: "/assets/resume/cap.svg",
-  title: "My education",
-  description:
-    "Academic qualifications and certifications that underpin my technical expertise and continuous professional growth.",
-  items: [
-    {
-      institution: "Solent University Southampton",
-      degree: "BSc. Computer Science",
-      duration: "2026",
-    },
-    {
-      institution: "IPMC College of Technology",
-      degree: "Diploma in Web & Graphic Designs",
-      duration: "2017-2018",
-    },
-  ],
-};
-
-// skills data
-const skills = {
-  title: "My skills",
-  description:
-    "The tools in my arsenal. From frontend artistry to backend logic.",
-  skillList: [
-    {
-      icon: <FaHtml5 />,
-      name: "html 5",
-    },
-    {
-      icon: <FaCss3 />,
-      name: "css 3",
-    },
-    {
-      icon: <FaJs />,
-      name: "javascript",
-    },
-    {
-      icon: <FaReact />,
-      name: "react.js",
-    },
-    {
-      icon: <SiNextdotjs />,
-      name: "next.js",
-    },
-    {
-      icon: <SiTailwindcss />,
-      name: "tailwind.css",
-    },
-    {
-      icon: <FaNodeJs />,
-      name: "node.js",
-    },
-    {
-      icon: <FaFigma />,
-      name: "figma",
-    },
-    {
-      icon: <FaWordpress />,
-      name: "wordpress",
-    },
-    {
-      icon: <SiFramer />,
-      name: "framer",
-    },
-    {
-      icon: <SiAffinitydesigner />,
-      name: "affinity designer",
-    },
-    {
-      icon: <SiAdobeillustrator />,
-      name: "adobe illustrator",
-    },
-  ],
-};
+// Components
+import TimelineItem from "@/components/resume/TimelineItem";
+import SkillCategory from "@/components/resume/SkillCategory";
+import CertificationCard from "@/components/resume/CertificationCard";
+import StatsRow from "@/components/resume/StatsRow";
+import Divider from "@/components/resume/Divider";
 
 const Resume = () => {
   return (
-    <motion.div
+    <motion.section
       initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-        transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
-      }}
-      className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="min-h-[80vh] py-16 xl:py-0"
     >
       <div className="container mx-auto">
-        <div className="w-full">
-          <div className="mx-auto max-w-4xl">
-            <Tabs
-              defaultValue="experience"
-              className="flex flex-col gap-[40px]"
+        <div className="max-w-4xl mx-auto">
+          {/* Hero Section */}
+          <div className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              {/* Horizontal Tabs */}
-              <div className="flex flex-col items-center">
-                <div className="flex flex-col gap-4 text-center mb-8">
-                  <h3 className="text-4xl font-bold">{about.title}</h3>
-                  <p className="text-white/60 text-base leading-relaxed max-w-2xl">
-                    {about.description}
-                  </p>
-                </div>
+              <p className="text-accent text-sm font-medium uppercase tracking-wider mb-3">
+                Curriculum Vitae
+              </p>
+              <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
+                {personalInfo.name}
+              </h1>
+              <p className="text-xl text-white/60 mb-6">
+                {personalInfo.title}
+              </p>
+            </motion.div>
 
-                <TabsList className="flex w-full max-w-[600px] gap-2 bg-[#27272c] p-2 rounded-xl">
-                  <TabsTrigger
-                    value="experience"
-                    className="flex-1 py-3 px-4 text-base font-medium data-[state=active]:bg-accent data-[state=active]:text-primary data-[state=active]:font-bold"
-                  >
-                    Experience
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="education"
-                    className="flex-1 py-3 px-4 text-base font-medium data-[state=active]:bg-accent data-[state=active]:text-primary data-[state=active]:font-bold"
-                  >
-                    Education
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="skills"
-                    className="flex-1 py-3 px-4 text-base font-medium data-[state=active]:bg-accent data-[state=active]:text-primary data-[state=active]:font-bold"
-                  >
-                    Skills
-                  </TabsTrigger>
-                </TabsList>
-              </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="max-w-2xl mx-auto"
+            >
+              <p className="text-white/60 leading-relaxed">
+                {professionalSummary}
+              </p>
+            </motion.div>
 
-              {/* Full Page Content */}
-              <div className="w-full">
-                {/* Experience */}
-                <TabsContent value="experience" className="w-full">
-                  <div className="flex flex-col gap-[30px] text-center">
-                    <div className="mb-4">
-                      <h3 className="text-3xl font-bold mb-2">{experience.title}</h3>
-                      <p className="text-white/60 text-base">{experience.description}</p>
-                    </div>
-                    <ScrollArea className="h-[500px] xl:h-[60vh] pr-4">
-                      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[20px]">
-                        {experience.items.map((item, index) => {
-                          return (
-                            <li
-                              key={index}
-                              className="bg-[#232329] py-6 px-8 rounded-xl flex flex-col justify-between gap-4 border border-transparent hover:border-accent/50 transition-all duration-300 hover:scale-[1.01]"
-                            >
-                              <div>
-                                <span className="text-accent text-sm font-bold tracking-widest uppercase mb-1 block">
-                                  {item.duration}
-                                </span>
-                                <h3 className="text-xl font-bold min-h-[50px] flex items-center">
-                                  {item.position}
-                                </h3>
-                              </div>
-                              <div className="flex items-center gap-3 mt-auto">
-                                <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                                <p className="text-white/60 text-sm">{item.company}</p>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </ScrollArea>
-                  </div>
-                </TabsContent>
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="mt-10"
+            >
+              <StatsRow stats={stats} />
+            </motion.div>
 
-                {/* Education */}
-                <TabsContent value="education" className="w-full">
-                  <div className="flex flex-col gap-[30px] text-center">
-                    <div className="mb-4">
-                      <h3 className="text-3xl font-bold mb-2">{education.title}</h3>
-                      <p className="text-white/60 text-base">{education.description}</p>
-                    </div>
-                    <ScrollArea className="h-[500px] xl:h-[60vh] pr-4">
-                      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[20px]">
-                        {education.items.map((item, index) => {
-                          return (
-                            <li
-                              key={index}
-                              className="bg-[#232329] py-6 px-8 rounded-xl flex flex-col justify-between gap-4 border border-transparent hover:border-accent/50 transition-all duration-300 hover:scale-[1.01]"
-                            >
-                              <div>
-                                <span className="text-accent text-sm font-bold tracking-widest uppercase mb-1 block">
-                                  {item.duration}
-                                </span>
-                                <h3 className="text-xl font-bold min-h-[50px] flex items-center">
-                                  {item.degree}
-                                </h3>
-                              </div>
-                              <div className="flex items-center gap-3 mt-auto">
-                                <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                                <p className="text-white/60 text-sm">{item.institution}</p>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </ScrollArea>
-                  </div>
-                </TabsContent>
-
-                {/* Skills */}
-                <TabsContent value="skills" className="w-full">
-                  <div className="flex flex-col gap-[30px] pb-8">
-                    <div className="flex flex-col gap-[30px] text-center">
-                      <div>
-                        <h3 className="text-3xl font-bold mb-2">{skills.title}</h3>
-                        <p className="text-white/60 text-base">{skills.description}</p>
-                      </div>
-                      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        {skills.skillList.map((skill, index) => {
-                          return (
-                            <li key={index}>
-                              <TooltipProvider delayDuration={100}>
-                                <Tooltip>
-                                  <TooltipTrigger className="w-full h-[120px] bg-[#232329] rounded-xl flex justify-center items-center group border border-transparent hover:border-accent transition-all duration-300">
-                                    <div className="text-5xl group-hover:text-accent transition-all duration-300">
-                                      {skill.icon}
-                                    </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p className="capitalize">{skill.name}</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </div>
-                </TabsContent>
-
-              </div>
-            </Tabs>
+            {/* Actions */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="mt-8 flex flex-wrap justify-center gap-4"
+            >
+              <Button
+                variant="outline"
+                size="lg"
+                className="gap-2"
+              >
+                <FiDownload className="w-4 h-4" />
+                <span>Download CV</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="gap-2"
+                onClick={() => window.open(`mailto:${personalInfo.email}`)}
+              >
+                <FiMail className="w-4 h-4" />
+                <span>Contact</span>
+              </Button>
+            </motion.div>
           </div>
+
+          <Divider className="mb-12" />
+
+          {/* Experience Section */}
+          <section className="mb-16">
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                Experience
+              </h2>
+              <p className="text-white/60 text-sm">
+                Professional journey and key accomplishments
+              </p>
+            </div>
+
+            <ScrollArea className="max-h-[500px] pr-2">
+              <ul className="space-y-2">
+                {experience.map((item, index) => (
+                  <TimelineItem
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    type="experience"
+                  />
+                ))}
+              </ul>
+            </ScrollArea>
+          </section>
+
+          <Divider className="mb-12" />
+
+          {/* Education Section */}
+          <section className="mb-16">
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                Education
+              </h2>
+              <p className="text-white/60 text-sm">
+                Academic background and professional certifications
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Education Timeline */}
+              <div className="lg:col-span-2">
+                <ScrollArea className="max-h-[400px] pr-2">
+                  <ul className="space-y-2">
+                    {education.map((item, index) => (
+                      <TimelineItem
+                        key={item.id}
+                        item={item}
+                        index={index}
+                        type="education"
+                      />
+                    ))}
+                  </ul>
+                </ScrollArea>
+              </div>
+
+              {/* Certifications */}
+              <div className="lg:col-span-1">
+                <h3 className="text-sm font-medium text-white/80 uppercase tracking-wider mb-4">
+                  Certifications
+                </h3>
+                <div>
+                  {certifications.map((cert, index) => (
+                    <CertificationCard
+                      key={cert.id}
+                      cert={cert}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <Divider className="mb-12" />
+
+          {/* Skills Section */}
+          <section className="mb-16">
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                Skills
+              </h2>
+              <p className="text-white/60 text-sm">
+                Technical competencies and tools
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+              {Object.entries(skills).map(([key, data], index) => (
+                <SkillCategory
+                  key={key}
+                  category={key}
+                  data={data}
+                  index={index}
+                />
+              ))}
+            </div>
+          </section>
+
+          <Divider className="mb-12" />
+
+          {/* Projects Section */}
+          <section className="mb-16">
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                Projects
+              </h2>
+              <p className="text-white/60 text-sm">
+                Selected work and personal initiatives
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {projects.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                  className="p-5 rounded-lg bg-white/5 border border-white/10 hover:border-accent/30 transition-colors duration-200"
+                >
+                  <h3 className="text-base font-medium text-white mb-2">
+                    {item.name}
+                  </h3>
+                  <p className="text-sm text-white/60 mb-3">
+                    {item.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {item.stack?.slice(0, 3).map((tech, idx) => (
+                      <span
+                        key={idx}
+                        className="text-xs text-accent/80 bg-accent/10 px-2 py-1 rounded"
+                      >
+                        {tech.name}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* Footer CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="text-center py-12"
+          >
+            <h3 className="text-xl font-medium text-white mb-3">
+              Let&apos;s work together
+            </h3>
+            <p className="text-white/60 text-sm mb-6 max-w-md mx-auto">
+              Available for freelance projects and full-time opportunities
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button
+                variant="ghost"
+                size="lg"
+                className="gap-2 text-white/80 hover:text-accent"
+                onClick={() => window.open(`mailto:${personalInfo.email}`)}
+              >
+                <FiMail className="w-4 h-4" />
+                <span>Email</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="lg"
+                className="gap-2 text-white/80 hover:text-accent"
+                onClick={() =>
+                  window.open(`https://${personalInfo.linkedin}`, "_blank")
+                }
+              >
+                <FiLinkedin className="w-4 h-4" />
+                <span>LinkedIn</span>
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </div>
-    </motion.div>
+    </motion.section>
   );
 };
-
 
 export default Resume;

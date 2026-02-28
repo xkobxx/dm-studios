@@ -21,8 +21,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
-  const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID || "exampleFormId";
-  const [state, handleFormspreeSubmit] = useForm(formId);
+  const [state, handleFormspreeSubmit] = useForm("mjkdzogw");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -226,10 +225,10 @@ const ContactForm = () => {
               ReCAPTCHA configuration missing. Please set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.
             </div>
           )}
-          {/* Hidden input for Formspree */}
+          {/* Hidden input for Formspree reCAPTCHA */}
           <input
             type="hidden"
-            name="g-recaptcha-response"
+            name="_recaptcha"
             value={captchaToken || ""}
           />
           {errors.captcha && (
