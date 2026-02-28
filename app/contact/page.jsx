@@ -5,6 +5,8 @@ import Social from "@/components/Social";
 import Link from "next/link";
 import { FaEnvelope, FaGithub, FaLinkedinIn } from "react-icons/fa";
 
+export const dynamic = 'force-dynamic';
+
 const Contact = () => {
   return (
     <section className="py-12 md:py-20">
